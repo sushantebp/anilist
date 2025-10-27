@@ -1,3 +1,4 @@
+import 'package:anilist/features/home/home.dart';
 import 'package:auto_route/auto_route.dart';
 
 part 'app_router.gr.dart';
@@ -11,5 +12,7 @@ class AppRouter extends RootStackRouter {
   RouteType get defaultRouteType => RouteType.material();
 
   @override
-  List<AutoRoute> get routes => [];
+  List<AutoRoute> get routes => [
+    AutoRoute(initial: true, page: HomeRoute.page),
+  ];
 }
