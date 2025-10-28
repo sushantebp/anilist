@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,24 +8,33 @@ part 'home_cubit.freezed.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final FetchAnimeListUsecase fetchAnimeListUsecase;
-  StreamSubscription? _subscription;
 
   HomeCubit({required this.fetchAnimeListUsecase}) : super(HomeState.initial());
 
-  void fetchAnimes() {
-    emit(const HomeState.loading());
-    _subscription?.cancel();
-    _subscription = fetchAnimeListUsecase.call().listen((result) {
+  int _currentPage = 1;
+  final _perPage = 10;
+  final List<AnimeEntity> _loadedAnime = [];
+  Future<void> fetchAnimes() async {
+    if (_currentPage == 1) {
+      emit(const HomeState.loading());
+    }
+    try {
+      final result = await fetchAnimeListUsecase.call(
+        _currentPage,
+        _perPage,
+        null,
+      );
+
       result.fold(
         (failure) => emit(HomeState.failure(message: failure.message)),
-        (animes) => emit(HomeState.loaded(animes: animes)),
+        (animes) {
+          _loadedAnime.addAll(animes);
+          _currentPage++;
+          emit(HomeState.loaded(animes: _loadedAnime));
+        },
       );
-    }, onError: (error) => emit(HomeState.failure(message: error.toString())));
-  }
-
-  @override
-  Future<void> close() {
-    _subscription?.cancel();
-    return super.close();
+    } catch (e) {
+      emit(HomeState.failure(message: e.toString()));
+    }
   }
 }

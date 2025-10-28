@@ -6,12 +6,35 @@ import 'package:anilist/core/core.dart';
 import 'package:anilist/features/home/presentation/presentation.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
     context.read<HomeCubit>().fetchAnimes();
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.atEdge) {
+        bool isBottom =
+            _scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent;
+
+        if (isBottom) {
+          context.read<HomeCubit>().fetchAnimes();
+        }
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
       body: BlocBuilder<HomeCubit, HomeState>(
@@ -21,6 +44,7 @@ class HomeScreen extends StatelessWidget {
             loading: () =>
                 const Center(child: CircularProgressIndicator.adaptive()),
             loaded: (animes) => GridView.builder(
+              controller: _scrollController,
               padding: const EdgeInsets.all(8),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -30,6 +54,9 @@ class HomeScreen extends StatelessWidget {
               ),
               itemCount: animes.length,
               itemBuilder: (context, index) {
+                if (index == animes.length) {
+                  return const CircularProgressIndicator.adaptive();
+                }
                 final anime = animes[index];
                 return AnimeCard(anime: anime);
               },

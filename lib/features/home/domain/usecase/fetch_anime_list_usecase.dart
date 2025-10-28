@@ -5,7 +5,9 @@ class FetchAnimeListUsecase {
   final HomeRepository _homeRepository;
   FetchAnimeListUsecase(this._homeRepository);
 
-  Stream<Result<List<AnimeEntity>>> call() {
-    return _homeRepository.getAnimeList();
-  }
+  Future<Result<List<AnimeEntity>>> call(
+    int page,
+    int perPage,
+    String? search,
+  ) => _homeRepository.getAnimeList(page, perPage, search);
 }

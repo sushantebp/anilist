@@ -4,11 +4,11 @@ import 'package:anilist/features/home/graphql/__generated__/get_anime_list.req.g
 import 'package:fpdart/fpdart.dart';
 
 abstract class AnimeListRemoteDataSource {
-  Stream<Result<GGetAnimeListData?>> fetchListAnime({
+  Future<Result<GGetAnimeListData?>> fetchListAnime(
     int page,
     int perPage,
     String? search,
-  });
+  );
 }
 
 class AnimeListRemoteDataSourceImpl extends AnimeListRemoteDataSource {
@@ -23,18 +23,21 @@ class AnimeListRemoteDataSourceImpl extends AnimeListRemoteDataSource {
   /// the operation's lifecycle, such as loading, cache data, network response,
   /// and errors.
   @override
-  Stream<Result<GGetAnimeListData?>> fetchListAnime({
-    int page = 0,
-    int perPage = 20,
+  Future<Result<GGetAnimeListData?>> fetchListAnime(
+    int page,
+    int perPage,
     String? search,
-  }) {
+  ) async {
     final request = GGetAnimeListReq(
       (b) => b
         ..vars.page = page
         ..vars.perPage = perPage
         ..vars.search = search,
     );
-    return graphqlService.client.request(request).map((response) {
+
+    try {
+      final response = await graphqlService.client.request(request).first;
+
       if (response.hasErrors) {
         return Left(
           UnknownException(
@@ -42,7 +45,10 @@ class AnimeListRemoteDataSourceImpl extends AnimeListRemoteDataSource {
           ),
         );
       }
+
       return Right(response.data);
-    });
+    } catch (e) {
+      return Left(UnknownException(e.toString()));
+    }
   }
 }
