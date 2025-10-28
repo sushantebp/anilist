@@ -1,0 +1,16 @@
+query GetAnimeList($page: Int, $perPage: Int, $search: String) {
+  Page(page: $page, perPage: $perPage) {
+    media(type: ANIME, search: $search) {
+      id
+      title {
+        english
+      }
+      episodes
+      description
+      coverImage {
+        large
+      }
+      status
+    }
+  }
+}

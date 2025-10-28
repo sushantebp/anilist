@@ -8,3 +8,5 @@ export './widgets/my_app_bar.dart';
 export './config/fp.dart';
 export './constants/app_exception.dart';
 export './network/dio_client.dart';
+
+export './services/graphql_service.dart';

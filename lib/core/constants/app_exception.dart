@@ -10,3 +10,7 @@ class ServerException extends AppException {
 class NetworkException extends AppException {
   const NetworkException([super.message = 'Network error occurred']);
 }
+
+class UnknownException extends AppException {
+  const UnknownException([super.message = "An unknown error occurred"]);
+}
