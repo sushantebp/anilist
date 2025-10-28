@@ -20,7 +20,11 @@ void setupDependencies() {
     ),
   );
 
+  sl.registerLazySingleton<FetchAnimeListUsecase>(
+    () => FetchAnimeListUsecase(sl<HomeRepository>()),
+  );
+
   sl.registerFactory<HomeCubit>(
-    () => HomeCubit(homeRepository: sl<HomeRepository>()),
+    () => HomeCubit(fetchAnimeListUsecase: sl<FetchAnimeListUsecase>()),
   );
 }

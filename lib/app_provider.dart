@@ -14,7 +14,8 @@ class AppProvider extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => HomeCubit(homeRepository: sl<HomeRepository>()),
+          create: (_) =>
+              HomeCubit(fetchAnimeListUsecase: sl<FetchAnimeListUsecase>()),
         ),
       ],
       child: const Anilist(),

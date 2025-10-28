@@ -57,4 +57,7 @@ app.*.map.json
 *.var.gql.dart
 *.gql.g.dart
 
+
 note.md
+
+/bin

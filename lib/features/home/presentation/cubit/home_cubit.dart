@@ -9,15 +9,15 @@ part 'home_state.dart';
 part 'home_cubit.freezed.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final HomeRepository homeRepository;
+  final FetchAnimeListUsecase fetchAnimeListUsecase;
   StreamSubscription? _subscription;
 
-  HomeCubit({required this.homeRepository}) : super(HomeState.initial());
+  HomeCubit({required this.fetchAnimeListUsecase}) : super(HomeState.initial());
 
   void fetchAnimes() {
     emit(const HomeState.loading());
     _subscription?.cancel();
-    _subscription = homeRepository.getAnimeList().listen((result) {
+    _subscription = fetchAnimeListUsecase.call().listen((result) {
       result.fold(
         (failure) => emit(HomeState.failure(message: failure.message)),
         (animes) => emit(HomeState.loaded(animes: animes)),
