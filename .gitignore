@@ -50,14 +50,8 @@ app.*.map.json
 *.freezed.dart
 *.g.dart
 
-
-*.ast.gql.dart
-*.req.gql.dart
-*.data.gql.dart
-*.var.gql.dart
-*.gql.g.dart
-
-
 note.md
 
 /bin
+/__generated__
+/lib/features/home/graphql/__generated__
