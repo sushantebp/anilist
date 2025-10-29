@@ -45,6 +45,19 @@ app.*.map.json
 /android/app/release
 
 .env
+
 *.gr.dart
 *.freezed.dart
+*.g.dart
 
+
+*.ast.gql.dart
+*.req.gql.dart
+*.data.gql.dart
+*.var.gql.dart
+*.gql.g.dart
+
+
+note.md
+
+/bin

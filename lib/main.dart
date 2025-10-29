@@ -1,16 +1,10 @@
+import 'package:anilist/app_provider.dart';
 import 'package:anilist/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   setupDependencies();
-  runApp(const Anilist());
-}
-
-class Anilist extends StatelessWidget {
-  const Anilist({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: AppRouter.instance.config());
-  }
+  runApp(const AppProvider());
 }
