@@ -53,5 +53,5 @@ app.*.map.json
 note.md
 
 /bin
-/__generated__
+/lib/__generated__
 /lib/features/home/graphql/__generated__
