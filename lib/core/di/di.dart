@@ -2,6 +2,10 @@ import 'package:anilist/core/core.dart';
 import 'package:anilist/features/home/data/data.dart';
 import 'package:anilist/features/home/domain/domain.dart';
 import 'package:anilist/features/home/home.dart';
+import 'package:anilist/features/search/data/data.dart';
+import 'package:anilist/features/search/domain/repositories/search_repository.dart';
+import 'package:anilist/features/search/domain/usecases/get_search_anime_usecase.dart';
+import 'package:anilist/features/search/presentation/presentation.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt sl = GetIt.instance;
@@ -10,6 +14,11 @@ void setupDependencies() {
   sl.registerSingleton<DioClient>(DioClient());
   sl.registerSingleton<GraphqlService>(GraphqlService());
 
+  registerHomeDependencies();
+  registerSearchDependencies();
+}
+
+void registerHomeDependencies() {
   sl.registerLazySingleton<AnimeListRemoteDataSource>(
     () => AnimeListRemoteDataSourceImpl(graphqlService: sl<GraphqlService>()),
   );
@@ -26,5 +35,23 @@ void setupDependencies() {
 
   sl.registerFactory<HomeCubit>(
     () => HomeCubit(fetchAnimeListUsecase: sl<FetchAnimeListUsecase>()),
+  );
+}
+
+void registerSearchDependencies() {
+  sl.registerLazySingleton<SearchAnimeRemoteDataSource>(
+    () => SearchAnimeRemoteDataSourceImpl(graphqlService: sl<GraphqlService>()),
+  );
+  sl.registerLazySingleton<SearchRepository>(
+    () => SearchRepositoryImpl(
+      searchAnimeRemoteDataSource: sl<SearchAnimeRemoteDataSource>(),
+    ),
+  );
+  sl.registerLazySingleton<GetSearchAnimeUsecase>(
+    () => GetSearchAnimeUsecase(sl<SearchRepository>()),
+  );
+  sl.registerFactory<SearchResultsCubit>(
+    () =>
+        SearchResultsCubit(getSearchAnimeUsecase: sl<GetSearchAnimeUsecase>()),
   );
 }

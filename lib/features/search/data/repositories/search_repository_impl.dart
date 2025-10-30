@@ -34,7 +34,7 @@ class SearchRepositoryImpl extends SearchRepository {
             .map(
               (media) => AnimeSearchModel(
                 id: media.id,
-                titleEnglish: media.title?.english,
+                titleEnglish: media.title?.english ?? "Unknown Title",
                 coverImage: media.coverImage?.medium,
               ),
             )
