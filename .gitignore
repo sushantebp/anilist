@@ -56,3 +56,5 @@ note.md
 /lib/__generated__
 /lib/features/home/graphql/__generated__
 /lib/features/search/graphql/__generated__
+
+/lib/app_bloc_observer.dart

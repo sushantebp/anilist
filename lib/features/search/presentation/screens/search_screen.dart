@@ -13,7 +13,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final _controller = TextEditingController();
+  final _serchController = TextEditingController();
   final _scrollController = ScrollController();
 
   @override
@@ -21,8 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
-        // TODO:apply pagination on scrolling the search results
-        
+        context.read<SearchResultsCubit>().search(_serchController.text);
       }
     });
     super.initState();
@@ -30,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _serchController.dispose();
     super.dispose();
   }
 
@@ -45,7 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             /// Search input field
             CustomTextField(
-              controller: _controller,
+              controller: _serchController,
               placeholder: "Search anime...",
               prefix: const Icon(Icons.search),
               onChanged: (value) =>
@@ -78,7 +77,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           if (index >= results.length) {
                             return const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Center(child: CircularProgressIndicator()),
+                              child: Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              ),
                             );
                           }
 
