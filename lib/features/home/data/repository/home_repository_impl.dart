@@ -28,7 +28,7 @@ class HomeRepositoryImpl extends HomeRepository {
         final mediaList =
             data?.Page?.media?.whereType<GGetAnimeListData_Page_media>() ?? [];
 
-        final animeModels = mediaList
+        final animeModels = (mediaList)
             .map(
               (media) => AnimeModel(
                 id: media.id,
