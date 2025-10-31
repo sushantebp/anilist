@@ -1,0 +1,40 @@
+# anime details search
+
+# upon selecting a indiviual anime ,its associated id is grabed
+# with that id we get required entites (title in japanese,englioh),episodes and many more
+
+query AnimeById($id: Int!) {
+  Media(id: $id, type: ANIME) {
+    coverImage {
+      large
+    }
+    title {
+      english
+      native
+    }
+    episodes
+    trending
+    trailer {
+      thumbnail
+      site
+    }
+    trending
+    status
+    episodes
+    genres
+    popularity
+    reviews {
+      edges {
+        node {
+          user {
+            name
+            avatar {
+              medium
+            }
+          }
+          summary
+        }
+      }
+    }
+  }
+}

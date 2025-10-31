@@ -67,6 +67,33 @@ import 'package:anilist/features/home/graphql/__generated__/get_anime_list.req.g
     show GGetAnimeListReq;
 import 'package:anilist/features/home/graphql/__generated__/get_anime_list.var.gql.dart'
     show GGetAnimeListVars;
+import 'package:anilist/features/search/graphql/__generated__/anime_by_id.data.gql.dart'
+    show
+        GAnimeByIdData,
+        GAnimeByIdData_Media,
+        GAnimeByIdData_Media_coverImage,
+        GAnimeByIdData_Media_reviews,
+        GAnimeByIdData_Media_reviews_edges,
+        GAnimeByIdData_Media_reviews_edges_node,
+        GAnimeByIdData_Media_reviews_edges_node_user,
+        GAnimeByIdData_Media_reviews_edges_node_user_avatar,
+        GAnimeByIdData_Media_title,
+        GAnimeByIdData_Media_trailer;
+import 'package:anilist/features/search/graphql/__generated__/anime_by_id.req.gql.dart'
+    show GAnimeByIdReq;
+import 'package:anilist/features/search/graphql/__generated__/anime_by_id.var.gql.dart'
+    show GAnimeByIdVars;
+import 'package:anilist/features/search/graphql/__generated__/anime_search.data.gql.dart'
+    show
+        GAnimeSearchData,
+        GAnimeSearchData_Page,
+        GAnimeSearchData_Page_media,
+        GAnimeSearchData_Page_media_coverImage,
+        GAnimeSearchData_Page_media_title;
+import 'package:anilist/features/search/graphql/__generated__/anime_search.req.gql.dart'
+    show GAnimeSearchReq;
+import 'package:anilist/features/search/graphql/__generated__/anime_search.var.gql.dart'
+    show GAnimeSearchVars;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart' show StandardJsonPlugin;
@@ -85,6 +112,25 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GAiringScheduleInput,
   GAiringSort,
   GAniChartHighlightInput,
+  GAnimeByIdData,
+  GAnimeByIdData_Media,
+  GAnimeByIdData_Media_coverImage,
+  GAnimeByIdData_Media_reviews,
+  GAnimeByIdData_Media_reviews_edges,
+  GAnimeByIdData_Media_reviews_edges_node,
+  GAnimeByIdData_Media_reviews_edges_node_user,
+  GAnimeByIdData_Media_reviews_edges_node_user_avatar,
+  GAnimeByIdData_Media_title,
+  GAnimeByIdData_Media_trailer,
+  GAnimeByIdReq,
+  GAnimeByIdVars,
+  GAnimeSearchData,
+  GAnimeSearchData_Page,
+  GAnimeSearchData_Page_media,
+  GAnimeSearchData_Page_media_coverImage,
+  GAnimeSearchData_Page_media_title,
+  GAnimeSearchReq,
+  GAnimeSearchVars,
   GCharacterNameInput,
   GCharacterRole,
   GCharacterSort,

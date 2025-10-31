@@ -45,23 +45,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Center(child: Text("Fetching animes... Please wait")),
             loading: (_) =>
                 const Center(child: CircularProgressIndicator.adaptive()),
-            loaded: (animes, isLoadingMore) => GridView.builder(
-              controller: _scrollController,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 8,
-                childAspectRatio: 0.65,
+            loaded: (animes, isLoadingMore) => Padding(
+              padding: const EdgeInsets.all(AppSize.paddingMedium),
+              child: GridView.builder(
+                controller: _scrollController,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                  childAspectRatio: 0.65,
+                ),
+                itemCount: animes.length + (isLoadingMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index >= animes.length) {
+                    return const Align(
+                      alignment: Alignment.centerRight,
+                      child: CircularProgressIndicator.adaptive(),
+                    );
+                  }
+                  return AnimeCard(anime: animes[index]);
+                },
               ),
-              itemCount: animes.length + (isLoadingMore ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index >= animes.length) {
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
-                }
-                return AnimeCard(anime: animes[index]);
-              },
             ),
             failure: (message, _) => Center(
               child: Text(message, style: context.textTheme.headlineMedium),
