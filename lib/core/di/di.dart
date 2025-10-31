@@ -4,6 +4,7 @@ import 'package:anilist/features/home/domain/domain.dart';
 import 'package:anilist/features/home/home.dart';
 import 'package:anilist/features/search/data/data.dart';
 import 'package:anilist/features/search/domain/repositories/search_repository.dart';
+import 'package:anilist/features/search/domain/usecases/get_anime_details_usecase.dart';
 import 'package:anilist/features/search/domain/usecases/get_search_anime_usecase.dart';
 import 'package:anilist/features/search/presentation/presentation.dart';
 import 'package:get_it/get_it.dart';
@@ -50,8 +51,16 @@ void registerSearchDependencies() {
   sl.registerLazySingleton<GetSearchAnimeUsecase>(
     () => GetSearchAnimeUsecase(sl<SearchRepository>()),
   );
-  sl.registerFactory<SearchResultsCubit>(
+  sl.registerFactory<AnimeSearchResultsCubit>(
+    () => AnimeSearchResultsCubit(
+      getSearchAnimeUsecase: sl<GetSearchAnimeUsecase>(),
+    ),
+  );
+  sl.registerLazySingleton<GetAnimeDetailsUsecase>(
+    () => GetAnimeDetailsUsecase(sl<SearchRepository>()),
+  );
+  sl.registerFactory<AnimeDetailsCubit>(
     () =>
-        SearchResultsCubit(getSearchAnimeUsecase: sl<GetSearchAnimeUsecase>()),
+        AnimeDetailsCubit(getAnimeDetailsUsecase: sl<GetAnimeDetailsUsecase>()),
   );
 }

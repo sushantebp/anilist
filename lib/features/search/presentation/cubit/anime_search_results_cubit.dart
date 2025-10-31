@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:anilist/features/search/search.dart';
 
-part 'search_results_state.dart';
-part 'search_results_cubit.freezed.dart';
+part 'anime_search_results_state.dart';
+part 'anime_search_results_cubit.freezed.dart';
 
 /// Cubit to handle search results for anime
 /// Features:
 /// - Debouncing input to avoid excessive API calls
 /// - Pagination
 /// - Tracks loading, error, and results
-class SearchResultsCubit extends Cubit<SearchResultsState> {
+class AnimeSearchResultsCubit extends Cubit<AnimeSearchResultsState> {
   final GetSearchAnimeUsecase getSearchAnimeUsecase;
 
-  SearchResultsCubit({required this.getSearchAnimeUsecase})
+  AnimeSearchResultsCubit({required this.getSearchAnimeUsecase})
     : super(const _Initial());
 
   /// Pagination tracking
@@ -55,7 +56,7 @@ class SearchResultsCubit extends Cubit<SearchResultsState> {
 
     // Keep previously loaded results while loading more
     final currentResults = state.maybeWhen(
-      loaded: (_, __, results) => results,
+      loaded: (_, results) => results,
       orElse: () => _loadedSearchResults,
     );
 

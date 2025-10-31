@@ -1,12 +1,11 @@
-import 'package:anilist/anilist.dart';
-import 'package:anilist/core/core.dart';
-import 'package:anilist/features/home/home.dart';
-import 'package:anilist/features/search/domain/domain.dart';
-import 'package:anilist/features/search/presentation/cubit/search_results_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/home/domain/domain.dart';
+import 'package:anilist/anilist.dart';
+import 'package:anilist/core/core.dart';
+
+import 'features/home/home.dart';
+import 'features/search/search.dart';
 
 class AppProvider extends StatelessWidget {
   const AppProvider({super.key});
@@ -20,8 +19,13 @@ class AppProvider extends StatelessWidget {
               HomeCubit(fetchAnimeListUsecase: sl<FetchAnimeListUsecase>()),
         ),
         BlocProvider(
-          create: (_) => SearchResultsCubit(
+          create: (_) => AnimeSearchResultsCubit(
             getSearchAnimeUsecase: sl<GetSearchAnimeUsecase>(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => AnimeDetailsCubit(
+            getAnimeDetailsUsecase: sl<GetAnimeDetailsUsecase>(),
           ),
         ),
       ],
