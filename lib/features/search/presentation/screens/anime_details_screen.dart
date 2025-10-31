@@ -1,8 +1,9 @@
-import 'package:anilist/core/core.dart';
-import 'package:anilist/features/search/search.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_route/auto_route.dart';
+
+import 'package:anilist/core/core.dart';
+import 'package:anilist/features/search/search.dart';
 
 @RoutePage()
 class AnimeDetailsScreen extends StatelessWidget {
@@ -18,153 +19,38 @@ class AnimeDetailsScreen extends StatelessWidget {
       body: BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
         builder: (context, state) {
           return state.when(
-            initial: () => const Center(
-              child: Text("Waiting, data will be fetched shortly"),
-            ),
-
-            loading: () => const Center(child: CircularProgressIndicator()),
+            initial: () => const Center(child: Text("Preparing request...")),
+            loading: () =>
+                const Center(child: CircularProgressIndicator.adaptive()),
+            failed: (message) => Center(child: Text(message)),
             loaded: (anime) => SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppSize.paddingLarge),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Cover Image
-                  if (anime.coverImageLarge != null)
-                    Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          anime.coverImageLarge!,
-                          height: 250,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  const SizedBox(height: 16),
-
-                  // Titles
-                  Text(
-                    anime.titleEnglish ?? anime.titleNative ?? "No Title",
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  AnimeCoverSection(imageUrl: anime.coverImageLarge),
+                  const SizedBox(height: AppSize.spaceLarge),
+                  AnimeTitleSection(
+                    englishTitle: anime.titleEnglish,
+                    nativeTitle: anime.titleNative,
                   ),
-                  if (anime.titleEnglish != null && anime.titleNative != null)
-                    Text(
-                      anime.titleNative!,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  const SizedBox(height: 16),
-
-                  // Info Row
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (anime.episodes != null)
-                        Text("Episodes: ${anime.episodes}"),
-                      if (anime.status != null) Text("Status: ${anime.status}"),
-                      if (anime.trending != null)
-                        Text("Trending: ${anime.trending}"),
-                    ],
+                  const SizedBox(height: AppSize.spaceMedium),
+                  AnimeInfoRow(
+                    episodes: anime.episodes,
+                    status: anime.status,
+                    trending: anime.trending,
                   ),
-                  const SizedBox(height: 16),
-
-                  // Popularity
-                  if (anime.popularity != null)
-                    Text("Popularity: ${anime.popularity}"),
-                  const SizedBox(height: 16),
-
-                  // Genres
-                  if (anime.genres != null && anime.genres!.isNotEmpty)
-                    Wrap(
-                      spacing: 8.0,
-                      runSpacing: 4.0,
-                      children: anime.genres!
-                          .map(
-                            (genre) => Chip(
-                              label: Text(genre),
-                              backgroundColor: Colors.blue.shade100,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  const SizedBox(height: 16),
-
-                  // Trailer
-                  if (anime.trailer != null && anime.trailer!.site != null)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Trailer",
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        GestureDetector(
-                          onTap: () {
-                            // Launch trailer URL with url_launcher or a video player
-                          },
-                          child: Text(
-                            anime.trailer!.site!,
-                            style: const TextStyle(color: Colors.blue),
-                          ),
-                        ),
-                      ],
-                    ),
-                  const SizedBox(height: 16),
-
-                  // Reviews
-                  if (anime.reviews != null && anime.reviews!.isNotEmpty)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Reviews",
-                          style: Theme.of(context).textTheme.titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        ...anime.reviews!.map(
-                          (review) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (review.user?.avatar != null)
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      review.user!.avatar!,
-                                    ),
-                                  ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      if (review.user?.name != null)
-                                        Text(
-                                          review.user!.name!,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      if (review.summary != null)
-                                        Text(review.summary!),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  SizedBox(height: AppSize.spaceMedium),
+                  AnimePopularity(popularity: anime.popularity),
+                  SizedBox(height: AppSize.spaceMedium),
+                  AnimeGenres(genres: anime.genres),
+                  SizedBox(height: AppSize.spaceLarge),
+                  AnimeTrailerSection(site: anime.trailer?.site),
+                  SizedBox(height: AppSize.spaceLarge),
+                  AnimeReviewsSection(reviews: anime.reviews),
                 ],
               ),
             ),
-            failed: (message) => Center(child: Text(message)),
           );
         },
       ),

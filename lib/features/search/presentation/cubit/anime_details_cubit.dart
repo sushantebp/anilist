@@ -1,6 +1,7 @@
-import 'package:anilist/features/search/domain/domain.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:anilist/features/search/domain/domain.dart';
 
 part 'anime_details_state.dart';
 part 'anime_details_cubit.freezed.dart';
