@@ -1,6 +1,4 @@
 import 'package:anilist/core/core.dart';
-import 'package:anilist/features/home/data/data.dart';
-import 'package:anilist/features/home/domain/domain.dart';
 import 'package:anilist/features/home/home.dart';
 import 'package:anilist/features/search/data/data.dart';
 import 'package:anilist/features/search/domain/repositories/search_repository.dart';

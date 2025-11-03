@@ -1,11 +1,11 @@
-import 'package:bloc/bloc.dart';
+import 'package:anilist/core/core.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:anilist/features/home/domain/domain.dart';
 
 part 'home_state.dart';
 part 'home_cubit.freezed.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HomeCubit extends BaseCubit<HomeState> {
   final FetchAnimeListUsecase fetchAnimeListUsecase;
 
   /// [_currentPage] holds the current page index.
