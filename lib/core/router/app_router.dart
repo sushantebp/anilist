@@ -7,16 +7,21 @@ part 'app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends RootStackRouter {
-  AppRouter._();
-  static final AppRouter instance = AppRouter._();
+  AppRouter._internal();
+
+  static final AppRouter _instance = AppRouter._internal();
+
+  factory AppRouter() => _instance;
+
+  static AppRouter get instance => _instance;
 
   @override
   RouteType get defaultRouteType => RouteType.material();
 
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(initial: false, page: HomeRoute.page),
-    AutoRoute(initial: true, page: AnimeSearchRoute.page),
+    AutoRoute(initial: true, page: HomeRoute.page),
+    AutoRoute(initial: false, page: AnimeSearchRoute.page),
     AutoRoute(page: AnimeDetailsRoute.page),
   ];
 }

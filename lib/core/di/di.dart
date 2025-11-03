@@ -11,7 +11,7 @@ final GetIt sl = GetIt.instance;
 
 void setupDependencies() {
   sl.registerSingleton<DioClient>(DioClient());
-  sl.registerSingleton<GraphqlService>(GraphqlService());
+  sl.registerSingleton<GraphQLService>(GraphQLService());
 
   registerHomeDependencies();
   registerSearchDependencies();
@@ -19,7 +19,7 @@ void setupDependencies() {
 
 void registerHomeDependencies() {
   sl.registerLazySingleton<AnimeListRemoteDataSource>(
-    () => AnimeListRemoteDataSourceImpl(graphqlService: sl<GraphqlService>()),
+    () => AnimeListRemoteDataSourceImpl(graphqlService: sl<GraphQLService>()),
   );
 
   sl.registerLazySingleton<HomeRepository>(
@@ -39,7 +39,7 @@ void registerHomeDependencies() {
 
 void registerSearchDependencies() {
   sl.registerLazySingleton<SearchAnimeRemoteDataSource>(
-    () => SearchAnimeRemoteDataSourceImpl(graphqlService: sl<GraphqlService>()),
+    () => SearchAnimeRemoteDataSourceImpl(graphqlService: sl<GraphQLService>()),
   );
   sl.registerLazySingleton<SearchRepository>(
     () => SearchRepositoryImpl(

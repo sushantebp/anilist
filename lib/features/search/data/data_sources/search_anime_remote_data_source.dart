@@ -17,7 +17,7 @@ abstract class SearchAnimeRemoteDataSource {
 }
 
 class SearchAnimeRemoteDataSourceImpl extends SearchAnimeRemoteDataSource {
-  final GraphqlService graphqlService;
+  final GraphQLService graphqlService;
   SearchAnimeRemoteDataSourceImpl({required this.graphqlService});
   @override
   Future<Result<GAnimeSearchData?>> fetchSearchAnimeList(
