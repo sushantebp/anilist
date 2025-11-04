@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:anilist/core/core.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:anilist/features/search/domain/domain.dart';
@@ -6,7 +6,7 @@ import 'package:anilist/features/search/domain/domain.dart';
 part 'anime_details_state.dart';
 part 'anime_details_cubit.freezed.dart';
 
-class AnimeDetailsCubit extends Cubit<AnimeDetailsState> {
+class AnimeDetailsCubit extends BaseCubit<AnimeDetailsState> {
   final GetAnimeDetailsUsecase getAnimeDetailsUsecase;
 
   AnimeDetailsCubit({required this.getAnimeDetailsUsecase})

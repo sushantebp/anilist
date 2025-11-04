@@ -12,7 +12,7 @@ abstract class AnimeListRemoteDataSource {
 }
 
 class AnimeListRemoteDataSourceImpl extends AnimeListRemoteDataSource {
-  final GraphqlService graphqlService;
+  final GraphQLService graphqlService;
   AnimeListRemoteDataSourceImpl({required this.graphqlService});
 
   /// [request] is an instance of [OperationRequest] which contains all information
