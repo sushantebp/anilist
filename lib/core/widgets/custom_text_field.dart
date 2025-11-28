@@ -1,7 +1,5 @@
-import 'package:anilist/core/core.dart';
 import 'package:flutter/material.dart';
 
-/// Minimal customizable TextFormField
 class CustomTextField extends StatefulWidget {
   final String? placeholder;
   final String? label;
@@ -14,6 +12,10 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final Function(String)? onChanged;
   final String? initialValue;
+  final bool isRounded;
+  final Function(String)? onFieldSubmitted;
+  final bool showClearButtonOnTyping;
+  final int maxLines;
 
   const CustomTextField({
     super.key,
@@ -28,6 +30,10 @@ class CustomTextField extends StatefulWidget {
     this.isPassword = false,
     this.onChanged,
     this.initialValue,
+    this.isRounded = true,
+    this.onFieldSubmitted,
+    this.showClearButtonOnTyping = false,
+    this.maxLines = 1,
   });
 
   @override
@@ -35,68 +41,116 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  late final ValueNotifier<bool> _obsecureTextNotifier;
+  late final ValueNotifier<bool> _obscureTextNotifier;
+  late final ValueNotifier<bool> _showClearNotifier;
+  late final TextEditingController _controller;
+
+  TextEditingController get _effectiveController =>
+      widget.controller ?? _controller;
 
   @override
   void initState() {
-    _obsecureTextNotifier = ValueNotifier<bool>(widget.isPassword);
     super.initState();
+    _obscureTextNotifier = ValueNotifier(widget.isPassword);
+    _showClearNotifier = ValueNotifier(false);
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
+
+    if (widget.showClearButtonOnTyping) {
+      _effectiveController.addListener(() {
+        _showClearNotifier.value = _effectiveController.text.isNotEmpty;
+      });
+    }
   }
 
   @override
   void dispose() {
-    _obsecureTextNotifier.dispose();
+    _obscureTextNotifier.dispose();
+    _showClearNotifier.dispose();
+    if (widget.controller == null) _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(AppSize.radiusLarge),
+    final theme = Theme.of(context);
+    final borderRadius = widget.isRounded ? 24.0 : 8.0;
+
+    OutlineInputBorder buildBorder(Color color) => OutlineInputBorder(
+      borderRadius: BorderRadius.circular(borderRadius),
+      borderSide: BorderSide(color: color, width: 1.5),
     );
 
     return ValueListenableBuilder<bool>(
-      valueListenable: _obsecureTextNotifier,
-      builder: (context, obsecureText, child) {
-        // Create the suffix widget according to the rules above
+      valueListenable: _obscureTextNotifier,
+      builder: (context, obscureText, _) {
         Widget? suffixWidget;
+
+        // Password toggle
         if (widget.isPassword) {
-          // Password field: show eye toggle if no custom suffix
           suffixWidget =
               widget.suffix ??
               IconButton(
-                onPressed: () {
-                  _obsecureTextNotifier.value = !_obsecureTextNotifier.value;
-                },
                 icon: Icon(
-                  obsecureText
+                  obscureText
                       ? Icons.visibility_off_outlined
                       : Icons.visibility_outlined,
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
+                onPressed: () => _obscureTextNotifier.value = !obscureText,
               );
+        }
+        // Clear button
+        else if (widget.showClearButtonOnTyping) {
+          suffixWidget = ValueListenableBuilder<bool>(
+            valueListenable: _showClearNotifier,
+            builder: (context, showClear, __) {
+              if (showClear) {
+                return IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+                  onPressed: () {
+                    _effectiveController.clear();
+                    _showClearNotifier.value = false;
+                    widget.onChanged?.call('');
+                  },
+                );
+              } else {
+                return widget.suffix ?? const SizedBox.shrink();
+              }
+            },
+          );
         } else {
-          // Non-password field: use custom suffix if provided
           suffixWidget = widget.suffix;
         }
 
         return TextFormField(
-          initialValue: widget.initialValue,
-          controller: widget.controller,
+          controller: _effectiveController,
+          initialValue: widget.controller == null ? widget.initialValue : null,
           enabled: widget.enabled,
           validator: widget.validator,
           keyboardType: widget.keyboardType,
-          obscureText: widget.isPassword ? obsecureText : false,
+          obscureText: widget.isPassword ? obscureText : false,
           onChanged: widget.onChanged,
+          onFieldSubmitted: widget.onFieldSubmitted,
+          maxLines: widget.maxLines,
           decoration: InputDecoration(
             filled: true,
+            fillColor: theme.colorScheme.surfaceContainerHighest,
             labelText: widget.label,
             hintText: widget.placeholder,
             prefixIcon: widget.prefix,
             suffixIcon: suffixWidget,
-            border: border,
-            enabledBorder: border,
-            focusedBorder: border,
-            errorBorder: border,
+            border: buildBorder(
+              theme.colorScheme.onSurface.withValues(alpha: 0.3),
+            ),
+            enabledBorder: buildBorder(
+              theme.colorScheme.onSurface.withValues(alpha: 0.3),
+            ),
+            focusedBorder: buildBorder(theme.colorScheme.primary),
+            errorBorder: buildBorder(theme.colorScheme.error),
           ),
         );
       },

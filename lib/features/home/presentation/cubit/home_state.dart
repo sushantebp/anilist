@@ -1,7 +1,7 @@
 part of 'home_cubit.dart';
 
-/// [isLoadingMore] boolean flag to indicate whether the app is fetching additional data
-/// apply to use for pagination
+/// [isLoadingMore] flag to indicate whether the app is fetching additional data
+/// applied to use for pagination
 @freezed
 abstract class HomeState with _$HomeState {
   const factory HomeState.initial({@Default(false) bool isLoadingMore}) =

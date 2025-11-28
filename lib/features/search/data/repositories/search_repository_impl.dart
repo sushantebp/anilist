@@ -4,8 +4,8 @@ import 'package:anilist/core/core.dart';
 import 'package:anilist/features/search/data/data.dart';
 import 'package:anilist/features/search/domain/domain.dart';
 
-import 'package:anilist/features/search/graphql/__generated__/anime_by_id.data.gql.dart';
-import 'package:anilist/features/search/graphql/__generated__/anime_search.data.gql.dart';
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_by_id.data.gql.dart';
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_search.data.gql.dart';
 
 class SearchRepositoryImpl extends SearchRepository {
   final SearchAnimeRemoteDataSource searchAnimeRemoteDataSource;

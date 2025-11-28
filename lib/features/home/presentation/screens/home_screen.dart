@@ -36,8 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final router = context.router;
+
     return Scaffold(
-      appBar: const MyAppBar(),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return state.when(
@@ -45,28 +46,56 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Center(child: Text("Fetching animes... Please wait")),
             loading: (_) =>
                 const Center(child: CircularProgressIndicator.adaptive()),
-            loaded: (animes, isLoadingMore) => Padding(
-              padding: const EdgeInsets.all(AppSize.paddingMedium),
-              child: GridView.builder(
+            loaded: (animes, isLoadingMore) {
+              return CustomScrollView(
                 controller: _scrollController,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  childAspectRatio: 0.65,
-                ),
-                itemCount: animes.length + (isLoadingMore ? 1 : 0),
-                itemBuilder: (context, index) {
-                  if (index >= animes.length) {
-                    return const Align(
-                      alignment: Alignment.centerRight,
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  }
-                  return AnimeCard(anime: animes[index]);
-                },
-              ),
-            ),
+                slivers: [
+                  SliverAppBar(),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSize.paddingMedium,
+                      ),
+                      child: InkWell(
+                        onTap: () => router.push(const AnimeSearchRoute()),
+                        child: CustomTextField(
+                          showClearButtonOnTyping: true,
+                          prefix: Icon(Icons.search),
+                          placeholder: "Search Anime",
+                          enabled: false,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(AppSize.paddingMedium),
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 8,
+                            childAspectRatio: 0.65,
+                          ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        if (index >= animes.length) {
+                          return const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          );
+                        }
+                        final anime = animes[index];
+                        return InkWell(
+                          onTap: () => context.router.push(
+                            AnimeDetailsRoute(id: anime.id),
+                          ),
+                          child: AnimeCard(anime: anime),
+                        );
+                      }, childCount: animes.length + (isLoadingMore ? 1 : 0)),
+                    ),
+                  ),
+                ],
+              );
+            },
             failure: (message, _) => Center(
               child: Text(message, style: context.textTheme.headlineMedium),
             ),

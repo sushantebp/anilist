@@ -1,6 +1,6 @@
 import 'package:anilist/core/core.dart';
-import 'package:anilist/features/home/graphql/__generated__/get_anime_list.data.gql.dart';
-import 'package:anilist/features/home/graphql/__generated__/get_anime_list.req.gql.dart';
+import 'package:anilist/features/home/data/data_sources/graphql/__generated__/get_anime_list.data.gql.dart';
+import 'package:anilist/features/home/data/data_sources/graphql/__generated__/get_anime_list.req.gql.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract class AnimeListRemoteDataSource {
@@ -11,17 +11,18 @@ abstract class AnimeListRemoteDataSource {
   );
 }
 
+/// [request] is an instance of [OperationRequest] which contains all information
+/// needed to execute the operation, including the query or mutation,
+/// variables, and any optimistic response.
+///
+/// Returns a [Stream] of [OperationResponse] objects which emit updates about
+/// the operation's lifecycle, such as loading, cache data, network response,
+/// and errors.
+
 class AnimeListRemoteDataSourceImpl extends AnimeListRemoteDataSource {
   final GraphQLService graphqlService;
   AnimeListRemoteDataSourceImpl({required this.graphqlService});
 
-  /// [request] is an instance of [OperationRequest] which contains all information
-  /// needed to execute the operation, including the query or mutation,
-  /// variables, and any optimistic response.
-  ///
-  /// Returns a [Stream] of [OperationResponse] objects which emit updates about
-  /// the operation's lifecycle, such as loading, cache data, network response,
-  /// and errors.
   @override
   Future<Result<GGetAnimeListData?>> fetchListAnime(
     int page,
