@@ -46,15 +46,6 @@ app.*.map.json
 
 .env
 
-*.gr.dart
-*.freezed.dart
-*.g.dart
-
 note.md
-
-/bin
-lib/__generated__
-/lib/features/home/graphql/__generated__
-/lib/features/search/graphql/__generated__
 
 /lib/app_bloc_observer.dart

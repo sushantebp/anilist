@@ -36,7 +36,7 @@ class _AnimeSearchScreenState extends State<AnimeSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(),
+      appBar: const MyAppBar(allowBack: true),
       body: Padding(
         padding: const EdgeInsets.all(AppSize.paddingMedium),
         child: Column(

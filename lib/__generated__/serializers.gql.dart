@@ -56,18 +56,18 @@ import 'package:anilist/__generated__/schema.schema.gql.dart'
         GUserStaffNameLanguage,
         GUserStatisticsSort,
         GUserTitleLanguage;
-import 'package:anilist/features/home/graphql/__generated__/get_anime_list.data.gql.dart'
+import 'package:anilist/features/home/data/data_sources/graphql/__generated__/get_anime_list.data.gql.dart'
     show
         GGetAnimeListData,
         GGetAnimeListData_Page,
         GGetAnimeListData_Page_media,
         GGetAnimeListData_Page_media_coverImage,
         GGetAnimeListData_Page_media_title;
-import 'package:anilist/features/home/graphql/__generated__/get_anime_list.req.gql.dart'
+import 'package:anilist/features/home/data/data_sources/graphql/__generated__/get_anime_list.req.gql.dart'
     show GGetAnimeListReq;
-import 'package:anilist/features/home/graphql/__generated__/get_anime_list.var.gql.dart'
+import 'package:anilist/features/home/data/data_sources/graphql/__generated__/get_anime_list.var.gql.dart'
     show GGetAnimeListVars;
-import 'package:anilist/features/search/graphql/__generated__/anime_by_id.data.gql.dart'
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_by_id.data.gql.dart'
     show
         GAnimeByIdData,
         GAnimeByIdData_Media,
@@ -79,20 +79,20 @@ import 'package:anilist/features/search/graphql/__generated__/anime_by_id.data.g
         GAnimeByIdData_Media_reviews_edges_node_user_avatar,
         GAnimeByIdData_Media_title,
         GAnimeByIdData_Media_trailer;
-import 'package:anilist/features/search/graphql/__generated__/anime_by_id.req.gql.dart'
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_by_id.req.gql.dart'
     show GAnimeByIdReq;
-import 'package:anilist/features/search/graphql/__generated__/anime_by_id.var.gql.dart'
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_by_id.var.gql.dart'
     show GAnimeByIdVars;
-import 'package:anilist/features/search/graphql/__generated__/anime_search.data.gql.dart'
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_search.data.gql.dart'
     show
         GAnimeSearchData,
         GAnimeSearchData_Page,
         GAnimeSearchData_Page_media,
         GAnimeSearchData_Page_media_coverImage,
         GAnimeSearchData_Page_media_title;
-import 'package:anilist/features/search/graphql/__generated__/anime_search.req.gql.dart'
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_search.req.gql.dart'
     show GAnimeSearchReq;
-import 'package:anilist/features/search/graphql/__generated__/anime_search.var.gql.dart'
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_search.var.gql.dart'
     show GAnimeSearchVars;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';

@@ -1,7 +1,7 @@
 import 'package:anilist/core/core.dart';
 import 'package:anilist/features/home/data/data.dart';
 import 'package:anilist/features/home/domain/domain.dart';
-import 'package:anilist/features/home/graphql/__generated__/get_anime_list.data.gql.dart';
+import 'package:anilist/features/home/data/data_sources/graphql/__generated__/get_anime_list.data.gql.dart';
 import 'package:fpdart/fpdart.dart';
 
 class HomeRepositoryImpl extends HomeRepository {

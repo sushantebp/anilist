@@ -2,10 +2,10 @@ import 'package:fpdart/fpdart.dart';
 
 import 'package:anilist/core/core.dart';
 
-import 'package:anilist/features/search/graphql/__generated__/anime_by_id.data.gql.dart';
-import 'package:anilist/features/search/graphql/__generated__/anime_by_id.req.gql.dart';
-import 'package:anilist/features/search/graphql/__generated__/anime_search.data.gql.dart';
-import 'package:anilist/features/search/graphql/__generated__/anime_search.req.gql.dart';
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_by_id.data.gql.dart';
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_by_id.req.gql.dart';
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_search.data.gql.dart';
+import 'package:anilist/features/search/data/data_sources/graphql/__generated__/anime_search.req.gql.dart';
 
 abstract class SearchAnimeRemoteDataSource {
   Future<Result<GAnimeSearchData?>> fetchSearchAnimeList(
